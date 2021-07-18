@@ -1,0 +1,10 @@
+header {
+    background-image: linear-gradient(to right, white , blue);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn {
+    margin: 10px;
+}

@@ -7,31 +7,29 @@
   <title>Weather Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&family=Merriweather:wght@700&display=swap"
     rel="stylesheet" />
-    <link rel="stylesheet" href="./assets/style.css" />
-    <script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
-  ></script>
+  <link rel="stylesheet" href="./assets/css/jass.css"/>
+  <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
 <body>
 
-    <header id="banner">
-      <h1>Weather Dashboard</h1>
-    </header>  
+  <header id="banner">
+    <h1>Weather Dashboard</h1>
+  </header>  
 
-    <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
+  <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
     
-        <div class="col-12 col-md-3 bg-light p-3">
-            <h2 class="text-primary">Search for a City:</h2>
-            <form id="search-form" class="mb-2">
-                <input id="search-input" class="form-input w-100" type="text" placeholder="San Diego">
-                <button class="btn btn-info btn-block">Search</button>
-            </form>
-        </div>
-
-        <div id="previous-searches"></div>
+    <div class="col-12 col-md-3 bg-light p-3">
+      <h2 class="text-primary">Search for a City:</h2>
+      <form id="search-form" class="mb-2">
+        <input id="search-input" class="form-input w-100" type="text" placeholder="San Diego">
+        <button class="btn btn-info btn-block">Search</button>
+      </form>
+      <div id="previous-searches">
+      </div>
     </div>
+
+
     
     <div class="col-12 col-md-9 p-3 text-light">
       <h2 id="city-date"></h2>
@@ -39,13 +37,20 @@
       <div id="current-wind"></div>
       <div id="current-humidity"></div>
       <div id="current-uv"></div>
+      <div id="forecast-section">
+        <div class="forecast"></div>
+        <div class="forecast"></div>
+        <div class="forecast"></div>
+        <div class="forecast"></div>
+        <div class="forecast"></div>
+      </div>
     </div>
 
-    <div id="forecast">
-        <div id="cards"></div>
-    </div>
+  </div>
 
-  <script src="./assets/script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  <script src="./assets/js/script.js"></script>
+
 </body>
 
 </html>
