@@ -3,8 +3,38 @@ header {
     color: white;
     text-align: center;
     font-weight: bold;
+    margin-bottom: 0px;
 }
 
 .btn {
-    margin: 10px;
+    margin: 10px 10px 10px 0px;
+}
+
+#new-search, #old-search {
+    background-color: gray;
+}
+
+
+#results {
+    background-color: white;
+}
+
+#city-date, #current-temp, #current-wind, #current-humidity, #current-uv, #forecast-title {
+    color: black;
+}
+
+img {
+    height: 40px;
+    width: 40px;
+}
+
+#forecast-title {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.forecast {
+    display: inline-block;
+    background-color: blue;
+    margin-right: 10px;
 }

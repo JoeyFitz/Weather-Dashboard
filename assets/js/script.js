@@ -8,8 +8,7 @@ var currentWindEl = document.querySelector('#current-wind');
 var currentHumidityEl = document.querySelector('#current-humidity');
 var currentUvEl = document.querySelector('#current-uv');
 var searchList = JSON.parse(localStorage.getItem("Search History")) || [];
-var forecastEl = document.querySelector('#forecast-section');
-var oldSearchEl = document.querySelector('#old-search');
+var forecastTitleEl = document.querySelector('#forecast-title');
 var newSearchEl = document.querySelector('#new-search');
 
 function handleSearchFormSubmit(event) {
@@ -26,8 +25,8 @@ function handleSearchFormSubmit(event) {
   saveCitySearch(cityQuery);
 }
 
-function getWx(cityQuery) {
-  var currentWxUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityQuery + '&units=imperial&appid=208d873c4b4df3505fa91990e6501772';
+function getWx(event) {
+  var currentWxUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + event + '&units=imperial&appid=208d873c4b4df3505fa91990e6501772';
   // var today = moment();
 
   fetch(currentWxUrl)
@@ -38,13 +37,12 @@ function getWx(cityQuery) {
       return response.json();
     })  
     .then(function (currentWx) {
-      // console.log(currentWx);
       var wxIcon = currentWx.weather[0].icon;
       var wxIconSource = "http://openweathermap.org/img/wn/" + wxIcon + "@2x.png";
       var img = document.createElement('img');
       img.src = wxIconSource;
-      cityDateEl.textContent = cityQuery + ' ' + today.format("L");
-      cityDateEl.appendChild(img);
+      cityDateEl.textContent = event + ' ' + today.format("L") + ' ';
+      cityDateEl.append(img);
 
       currentTempEl.textContent = "Temp: " + currentWx.main.temp + '°F';
       currentWindEl.textContent = "Wind: " + currentWx.wind.speed + ' MPH';
@@ -59,32 +57,33 @@ function getWx(cityQuery) {
           return response.json();
         })
         .then(function (response) {
-          console.log(response);
           var currentUv = response.current.uvi;
           currentUvEl.textContent = "UV Index: " + currentUv;
-          var fiveDayForecast = document.createElement("h3");
-          fiveDayForecast.textContent = "5-Day Forecast";
-          forecastEl.append(fiveDayForecast);
+          // var fiveDayForecast = document.createElement("h3");
+          // fiveDayForecast.textContent = "";
+          // fiveDayForecast.textContent = "5-Day Forecast";
+          // forecastTitleEl.append(fiveDayForecast);
           var forecastCards = document.querySelectorAll(".forecast");
           for (var i = 0; i < forecastCards.length; i++) {
-            forecastDate = document.createElement("h3");
-            var newDate = today.add((i + 1), 'days');
+            forecastCards[i].textContent = "";
+            forecastDate = document.createElement("h4");
+            var newDate = today.add(1, 'days');
             forecastDate.textContent = newDate.format('L');
-            forecastCards.append(forecastDate);
-            var forecastWxIcon = response.daily[i + 1].weather[0].icon;
+            forecastCards[i].append(forecastDate);
+            var forecastWxIcon = response.daily[i].weather[0].icon;
             var forecastWxIconSource = "http://openweathermap.org/img/wn/" + forecastWxIcon + "@2x.png";
             var icon = document.createElement('img');
             icon.src = forecastWxIconSource;
-            forecastCards.append(icon);
+            forecastCards[i].append(icon);
             forecastTempEl = document.createElement('p');
-            forecastTempEl.textContent = "Temp: " + response.daily[i+1].temp.max + '°F';
-            forecastCards.append(forecastTempEl);
+            forecastTempEl.textContent = "Temp: " + response.daily[i].temp.max + '°F';
+            forecastCards[i].append(forecastTempEl);
             forecastWindEl = document.createElement('p');
-            forecastWindEl.textContent = "Wind: " + response.daily[i+1].wind_speed + ' MPH';
-            forecastCards.append(forecastWindEl);
+            forecastWindEl.textContent = "Wind: " + response.daily[i].wind_speed + ' MPH';
+            forecastCards[i].append(forecastWindEl);
             forecastHumidityEl = document.createElement('p');
-            forecastHumidityEl.textContent = "Humidity: " + response.daily[i+1].humidity + '%';
-            forecastCards.append(forecastHumidityEl);
+            forecastHumidityEl.textContent = "Humidity: " + response.daily[i].humidity + '%';
+            forecastCards[i].append(forecastHumidityEl);
           }
         })  
     })
@@ -106,6 +105,8 @@ function saveCitySearch (event) {
   newSearchEl.setAttribute("id", "new-search");
   newSearchEl.textContent = event;
   previousSearchesEl.append(newSearchEl);
+  // newSearchEl.addEventListener("click", getWx(newSearchEl.value));
+
 }
 
 function init () {
@@ -117,19 +118,21 @@ function init () {
   else {
 
     for (var i = 0; i < searchList.length; i++) {
-      var oldSearchEl = document.createElement("button");
+      var oldSearchEl= document.createElement("button");
       oldSearchEl.setAttribute("type", "button");
       oldSearchEl.setAttribute("value", searchList[i]);
       oldSearchEl.setAttribute("class", "btn btn-info btn-block");
       oldSearchEl.setAttribute("id", "old-search");
       oldSearchEl.textContent = searchList[i];
       previousSearchesEl.append(oldSearchEl);
+      // oldSearchEl.addEventListener('click', getWx(oldSearchEl.value));
     }
   }
 }
 
 searchFormEl.addEventListener('submit', handleSearchFormSubmit);
-// oldSearchEl.addEventListener('click', getWx(oldSearchEl.value));
-// newSearchEl.addEventListener("click", getWx(newSearchEl.value));
 
 init ();
+
+//Need to prevent duplicate previous search buttons from being created
+//Need to get previous search buttons working
